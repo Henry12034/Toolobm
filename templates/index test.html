@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <title>Tool All-in-One - Estrazione PDF Bancari OBM</title>
+  <style>
+    body {
+      background-color: #E8F5E9;
+      font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+      color: #1B5E20;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .logo {
+      width: 170px;
+      height: 170px;
+      margin: 0 auto;
+    }
+    .logo img {
+      max-width: 100%;
+      height: auto;
+    }
+    h1 {
+      font-size: 20pt;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 15px;
+    }
+    label {
+      font-weight: bold;
+      margin: 10px 0;
+      display: block;
+    }
+    select, input[type="file"] {
+      background-color: #C8E6C9;
+      color: #1B5E20;
+      border: 1px solid #AAAAAA;
+      padding: 5px;
+      min-height: 25px;
+      border-radius: 3px;
+      font-size: 10pt;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+      border: none;
+      font-size: 10pt;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .status {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 11pt;
+    }
+    .loading {
+      display: none;
+      font-size: 12pt;
+      color: #1B5E20;
+      margin-top: 10px;
+    }
+  </style>
+  <script>
+    var availableDocsByBank = {{ available_docs_by_bank | tojson }};
+    function updateDocTypes() {
+      var bankSelect = document.getElementById('bank');
+      var docSelect = document.getElementById('doc_type');
+      var selectedBank = bankSelect.value;
+      docSelect.innerHTML = "";
+      var types = availableDocsByBank[selectedBank];
+      if (types && types.length > 0) {
+        for (var i = 0; i < types.length; i++){
+          var option = document.createElement("option");
+          option.value = types[i];
+          option.text = types[i];
+          docSelect.add(option);
+        }
+        docSelect.disabled = false;
+      } else {
+        var option = document.createElement("option");
+        option.value = "";
+        option.text = "Nessun documento disponibile";
+        docSelect.add(option);
+        docSelect.disabled = true;
+      }
+    }
+    function showLoading() {
+      document.getElementById("loading").style.display = "block";
+    }
+    window.onload = function() {
+      updateDocTypes();
+      document.getElementById('bank').addEventListener('change', updateDocTypes);
+      document.getElementById("uploadForm").addEventListener("submit", function() {
+          showLoading();
+      });
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+    </div>
+    <h1>Da PDF della banca a CSV</h1>
+    <form id="uploadForm" action="/run_script" method="post" enctype="multipart/form-data" target="download_iframe">
+      <label for="bank">1. Seleziona la banca:</label>
+      <select id="bank" name="bank">
+        {% for bank in all_banche %}
+          <option value="{{ bank }}">{{ bank }}</option>
+        {% endfor %}
+      </select>
+      <label for="doc_type">2. Seleziona il tipo di documento:</label>
+      <select id="doc_type" name="doc_type" disabled>
+        <!-- Options updated via JS -->
+      </select>
+      <label for="pdf_file">3. Carica il file PDF:</label>
+      <input type="file" id="pdf_file" name="pdf_file" accept="application/pdf" required>
+      <button type="submit">Avvia Elaborazione</button>
+    </form>
+    <div class="loading" id="loading">Elaborazione in corso... Attendere.</div>
+    <div class="status" id="status"></div>
+    <!-- Hidden iframe for file download -->
+    <iframe id="download_iframe" name="download_iframe" style="display: none;"></iframe>
+  </div>
+</body>
+</html>

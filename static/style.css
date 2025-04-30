@@ -1,0 +1,512 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Light Theme (Default) */
+    --primary-color: #4CAF50;
+    --primary-dark: #388E3C;
+    --primary-light: #C8E6C9;
+    --secondary-color: #ffffff;
+    --text-color: #333333;
+    --text-light: #555555;
+    --border-color: #ddd;
+    --background-color: #e8f5e9;
+    --error-color: #D32F2F;
+    --success-color: #388E3C;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --input-bg: #ffffff;
+    --input-focus-border: var(--primary-color);
+    --select-arrow-color: '#cccccc'; /* SVG color needs escaping in url() */
+
+    /* Dark Theme Variables */
+    --dark-primary-color: #66BB6A; /* Slightly lighter green for dark bg */
+    --dark-primary-dark: #4CAF50;
+    --dark-primary-light: #A5D6A7;
+    --dark-secondary-color: #2c2c2c; /* Dark grey for container */
+    --dark-text-color: #e0e0e0; /* Light grey text */
+    --dark-text-light: #bdbdbd; /* Dimmer light grey */
+    --dark-border-color: #555555; /* Darker border */
+    --dark-background-color: #1f3d21; /* Dark green background */
+    --dark-error-color: #ef9a9a; /* Lighter red */
+    --dark-success-color: #81C784; /* Lighter green */
+    --dark-shadow-color: rgba(0, 0, 0, 0.3); /* Darker shadow */
+    --dark-input-bg: #424242; /* Dark input background */
+    --dark-input-focus-border: var(--dark-primary-color);
+    --dark-select-arrow-color: '#eeeeee';
+
+    --border-radius: 8px;
+    --transition-speed: 0.3s; /* Use this for color transitions */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    /* Add transition */
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+.container {
+    background-color: var(--secondary-color);
+    padding: 30px 40px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 25px var(--shadow-color);
+    max-width: 650px;
+    width: 100%;
+    text-align: center;
+    /* Add position relative for toggle button positioning */
+    position: relative;
+    /* Add transition */
+    transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+/* === Theme Toggle Button Styling === */
+#theme-toggle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 30px; /* Oval shape */
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    width: 70px; /* Fixed width for the toggle */
+    height: 34px; /* Fixed height for the toggle */
+    align-items: center;
+    overflow: hidden; /* Contain the slider */
+    transition: background-color var(--transition-speed) ease, 
+                border-color var(--transition-speed) ease;
+}
+
+/* Create the sliding part of the toggle */
+#theme-toggle::before {
+    content: "";
+    position: absolute;
+    left: 4px; /* Starting position (light mode) */
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: rgba(76, 175, 80, 0.7); /* More transparent green */
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    z-index: 1; /* Above the icons */
+}
+
+/* In dark mode, move the slider to the right */
+body.dark-theme #theme-toggle::before {
+    transform: translateX(36px);
+    background-color: rgba(102, 187, 106, 0.7); /* More transparent green for dark mode */
+}
+
+/* Position the icons inside the toggle */
+#theme-toggle .moon-icon {
+    margin-left: 6px;
+    margin-right: auto;
+    color: var(--text-light);
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    z-index: 0; /* Below the slider */
+}
+
+#theme-toggle .sun-icon {
+    margin-right: 6px;
+    margin-left: auto;
+    color: var(--text-light);
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    z-index: 0; /* Below the slider */
+}
+
+/* Highlight the active icon */
+body:not(.dark-theme) #theme-toggle .moon-icon {
+    opacity: 1;
+    color: var(--text-color);
+}
+
+body.dark-theme #theme-toggle .sun-icon {
+    opacity: 1;
+    color: white;
+}
+
+/* Dark theme toggle appearance */
+body.dark-theme #theme-toggle {
+    background: var(--dark-background-color);
+    border-color: var(--dark-border-color);
+}
+
+/* Icon Visibility - Both icons always visible */
+/* Override the previous display: none styles */
+body:not(.dark-theme) .sun-icon,
+body.dark-theme .moon-icon {
+    display: block;
+}
+/* === END Theme Toggle Button Styling === */
+
+
+.logo {
+    /* Base style for large screens */
+    width: 250px;
+    height: 250px;
+    margin: 0px 0px -210px 190px;
+    overflow: visible; /* Changed from 'hidden' to 'visible' to allow glow to extend outside */
+    display: block;
+    position: relative;
+    /* Add transition for potential filter effects later */
+    transition: filter var(--transition-speed) ease;
+}
+
+.logo img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    /* Add transition for filter effects */
+    transition: filter var(--transition-speed) ease;
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    margin-top: 110px;
+    color: var(--primary-dark);
+    text-align: center;
+    /* Add transition */
+    transition: color var(--transition-speed) ease;
+}
+
+.form-step {
+    margin-bottom: 25px;
+    text-align: left;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Stagger animation delays */
+#uploadForm .form-step:nth-of-type(1) { animation-delay: 0.1s; }
+#uploadForm .form-step:nth-of-type(2) { animation-delay: 0.2s; }
+#uploadForm .form-step:nth-of-type(3) { animation-delay: 0.3s; }
+#uploadForm .form-step:nth-of-type(4) { animation-delay: 0.4s; }
+#uploadForm button[type="submit"] { animation: fadeInUp 0.5s ease forwards; animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    /* Add transition */
+    transition: color var(--transition-speed) ease;
+}
+
+select,
+.file-input-wrapper input[type="text"],
+#output_filename {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    font-size: 1rem;
+    /* Updated transition */
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+select {
+    appearance: none;
+    /* Update background-image carefully */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23cccccc%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 12px auto;
+    cursor: pointer;
+}
+
+select:focus,
+.file-input-wrapper input[type="text"]:focus,
+#output_filename:focus,
+.file-input-wrapper:focus-within {
+    outline: none;
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2); /* Light mode focus glow */
+}
+
+select:disabled {
+    background-color: #eee; /* Keep light disabled bg */
+    cursor: not-allowed;
+    opacity: 0.7;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23eeeeee%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+}
+
+.file-input-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--input-bg); /* Use variable */
+    /* Updated transition */
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
+}
+
+input[type="file"] {
+    position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer;
+}
+
+.file-input-button {
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+    padding: 12px 15px;
+    border: none;
+    border-right: 1px solid var(--border-color);
+    font-weight: 500; white-space: nowrap; cursor: pointer; flex-shrink: 0;
+    /* Add transition */
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+}
+.file-input-button:hover {
+    background-color: #b7e0b9; /* Specific light hover */
+}
+
+#file-name-display {
+    flex-grow: 1; padding: 12px 15px; font-size: 1rem; color: var(--text-light);
+    background: none; border: none; outline: none;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    border: none !important; box-shadow: none !important;
+    /* Add transition */
+    transition: color var(--transition-speed) ease;
+}
+
+button[type="submit"] {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 12px 25px; border: none; border-radius: var(--border-radius);
+    font-weight: 600; font-size: 1.05rem; cursor: pointer; display: inline-block;
+    margin-top: 15px; width: auto; opacity: 0; transform: translateY(10px);
+    /* Updated transition */
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease, opacity var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+button[type="submit"]:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px) scale(1.02);
+}
+button[type="submit"]:disabled {
+    background-color: #aaa; cursor: not-allowed; transform: none; opacity: 0.7;
+}
+
+.status {
+    margin-top: 25px; font-size: 0.95rem; min-height: 20px;
+    transition: color var(--transition-speed) ease;
+}
+.status.error { color: var(--error-color); font-weight: 500; }
+.status.success { color: var(--success-color); font-weight: 500; }
+
+.loading-indicator { display: none; margin-top: 20px; text-align: center; }
+.spinner {
+    border: 4px solid var(--primary-light);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%; width: 40px; height: 40px;
+    animation: spin 1s linear infinite; margin: 0 auto 10px auto;
+    /* Add transition */
+    transition: border-color var(--transition-speed) ease;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.loading-indicator p {
+    font-size: 1rem; color: var(--primary-dark); font-weight: 500;
+    /* Add transition */
+    transition: color var(--transition-speed) ease;
+}
+
+
+/* === Dark Theme Overrides === */
+body.dark-theme {
+    background-color: var(--dark-background-color);
+    color: var(--dark-text-color);
+}
+
+body.dark-theme .container {
+    background-color: var(--dark-secondary-color);
+    box-shadow: 0 5px 25px var(--dark-shadow-color);
+}
+
+body.dark-theme #theme-toggle {
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-light);
+}
+body.dark-theme #theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--dark-text-color);
+}
+
+body.dark-theme .logo img {
+    /* Optional: slightly reduce brightness/contrast in dark mode */
+    /* filter: brightness(0.9) contrast(0.95); */
+    /* Create a more uniform glow effect that's consistent on thin text elements */
+    filter: 
+        drop-shadow(0 0 2px rgba(102, 255, 153, 1.0))
+        drop-shadow(0 0 4px rgba(102, 255, 153, 0.9))
+        drop-shadow(0 0 8px rgba(102, 255, 153, 0.8))
+        drop-shadow(0 0 12px rgba(51, 236, 23, 0.7));
+    /* Transition already defined in base .logo img */
+}
+
+body.dark-theme h1 {
+    color: var(--dark-primary-color); /* Use lighter green for title */
+}
+
+body.dark-theme label {
+    color: var(--dark-text-light);
+}
+
+body.dark-theme select,
+body.dark-theme .file-input-wrapper input[type="text"], /* Read-only display */
+body.dark-theme #output_filename { /* Output name input */
+    background-color: var(--dark-input-bg);
+    color: var(--dark-text-color);
+    border-color: var(--dark-border-color);
+}
+
+/* Dark mode select arrow */
+body.dark-theme select {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23eeeeee%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+}
+
+/* Dark mode focus glow */
+body.dark-theme select:focus,
+body.dark-theme .file-input-wrapper input[type="text"]:focus,
+body.dark-theme #output_filename:focus,
+body.dark-theme .file-input-wrapper:focus-within {
+    border-color: var(--dark-input-focus-border);
+    box-shadow: 0 0 0 2px rgba(102, 187, 106, 0.3); /* Dark mode focus glow (adjust color/opacity) */
+}
+
+body.dark-theme select:disabled {
+    background-color: #333; /* Darker disabled background */
+    opacity: 0.5;
+    /* Arrow remains light */
+}
+
+body.dark-theme .file-input-wrapper {
+     background-color: var(--dark-input-bg); /* Ensure wrapper bg matches */
+     border-color: var(--dark-border-color);
+}
+
+body.dark-theme .file-input-button {
+    background-color: var(--dark-primary-dark); /* Use darker green */
+    color: #ffffff; /* White text */
+    border-right-color: var(--dark-border-color);
+}
+body.dark-theme .file-input-button:hover {
+    background-color: var(--dark-primary-color); /* Lighter green on hover */
+}
+
+body.dark-theme #file-name-display {
+    color: var(--dark-text-light);
+}
+
+body.dark-theme button[type="submit"] {
+    background-color: var(--dark-primary-color);
+    color: #111; /* Dark text for contrast on lighter green button */
+}
+body.dark-theme button[type="submit"]:hover {
+    background-color: var(--dark-primary-light);
+    /* transform remains the same */
+}
+body.dark-theme button[type="submit"]:disabled {
+    background-color: #555;
+    opacity: 0.6;
+    color: #999;
+}
+
+body.dark-theme .status.error { color: var(--dark-error-color); }
+body.dark-theme .status.success { color: var(--dark-success-color); }
+
+body.dark-theme .spinner {
+    border-color: var(--dark-primary-dark); /* Darker base */
+    border-top-color: var(--dark-primary-light); /* Lighter spinning part */
+}
+body.dark-theme .loading-indicator p {
+    color: var(--dark-text-light);
+}
+
+/* === END Dark Theme Overrides === */
+
+
+/* Responsive Design (Keep existing media queries) */
+@media (max-width: 768px) {
+    .container { padding: 25px 20px; margin: 20px; }
+    h1 { font-size: 1.6rem; margin-top: 80px; }
+    select, .file-input-wrapper input[type="text"], #output_filename, .file-input-button, button[type="submit"] {
+        font-size: 0.95rem; padding: 10px 12px;
+    }
+    .logo { 
+        width: 200px; 
+        height: 200px; 
+        margin: 0px auto -160px auto; 
+        position: relative; 
+        left: 25px; 
+        overflow: visible; /* Ensure glow is visible on mobile too */
+    }
+    #theme-toggle { 
+        top: 10px; 
+        right: 10px; 
+        width: 60px;
+        height: 30px;
+    }
+    #theme-toggle::before {
+        width: 22px;
+        height: 22px;
+    }
+    body.dark-theme #theme-toggle::before {
+        transform: translateX(30px);
+    }
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: 1.4rem; margin-bottom: 20px; margin-top: 60px; }
+    .form-step { margin-bottom: 20px; }
+    label { font-size: 0.9rem; }
+    select, .file-input-wrapper input[type="text"], #output_filename, .file-input-button, button[type="submit"] {
+        font-size: 0.9rem;
+    }
+    button[type="submit"] { width: 100%; }
+    .logo { 
+        width: 130px; 
+        height: 130px; 
+        margin: 0px auto -120px auto; 
+        position: relative; 
+        left: 20px;
+        overflow: visible; /* Ensure glow is visible on smallest screens too */ 
+    }
+    #theme-toggle { 
+        top: 8px; 
+        right: 8px; 
+        width: 50px;
+        height: 26px;
+    }
+    #theme-toggle::before {
+        width: 18px;
+        height: 18px;
+    }
+    body.dark-theme #theme-toggle::before {
+        transform: translateX(24px);
+    }
+}

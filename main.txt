@@ -1,0 +1,15 @@
+python -m PyInstaller --onefile --windowed ^
+    --hidden-import=script.EcIntesa ^
+    --add-data "script;script" ^    
+    --add-data "logo.png;." ^
+    --add-data "pdf.png;." ^
+    --add-data "csv.png;." ^
+    --add-data "freccia.png;." ^
+    --add-data "Tesseract-OCR;Tesseract-OCR" ^
+    --add-data "poppler-24.08.0;poppler-24.08.0" ^
+    --icon="favicon.ico" ^
+    --hidden-import=pdfplumber ^
+    --hidden-import=tkinter.filedialog ^
+    --hidden-import=tkinter.messagebox ^
+    --hidden-import=pytesseract ^
+    main.py
